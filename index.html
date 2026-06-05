@@ -30,6 +30,9 @@
 
 
     <link rel="stylesheet" href="/src/css/main.css">
+    <link rel="stylesheet" href="/src/css/i18n.css">
+
+    <script type="module" src="/src/js/i18n.js" defer></script>
     <script type="module" src="/src/js/main.js" defer></script>
 </head>
 
@@ -42,7 +45,7 @@
             <!-- LOGO -->
             <a href="#hero" class="main-header__logo">
                 <div class="logo">
-                    <img id="headerLogo" src="/images/Prospect24-logo.jpg" alt="Լոգո" width="200" height="200"
+                    <img id="headerLogo" src="/images/Prospect24-logo.png" alt="Լոգո" width="200" height="200"
                         fetchpriority="high">
                 </div>
             </a>
@@ -56,6 +59,15 @@
                     <li><a href="#valuation">Գնահատում</a></li>
                 </ul>
             </nav>
+
+            <div class="language-switcher" aria-label="Լեզվի ընտրություն">
+                <button type="button" class="language-switcher__btn active" data-lang="hy" aria-pressed="true"
+                    aria-label="Հայերեն">HY</button>
+                <button type="button" class="language-switcher__btn" data-lang="ru" aria-pressed="false"
+                    aria-label="Русский">RU</button>
+                <button type="button" class="language-switcher__btn" data-lang="en" aria-pressed="false"
+                    aria-label="English">EN</button>
+            </div>
 
             <!-- BURGER BUTTON -->
             <button class="burger-btn" aria-label="Բացել մենյուն">
@@ -84,7 +96,8 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <div class="hero-logo">
-                        <img src="/images/logo.webp" alt="Լոգո" width="600" height="600" fetchpriority="high">
+                        <img src="/images/logo.webp" alt="Լոգո" width="600" height="600" fetchpriority="high"
+                            data-i18n-logo>
                     </div>
                     <h1 class="hero-title">ՊԵՏԱԿԱՆ ԳՈՒՅՔԻ
                         ՕՏԱՐՄԱՆ ՆԵՐԴՐՈՒՄԱՅԻՆ
@@ -383,7 +396,7 @@
                         </div>
 
                         <div class="doc-row">
-                            <div class="doc-item" data-file="./files/Վանաձոր Նիզամու սեյսմիկ.pdf" data-title="Սխեմա">
+                            <div class="doc-item" data-file="./files/Վանաձոր Նիզամու սեյսմիկ.pdf" data-title="Սեյսմիկ">
                                 <span>Սեյսմիկ</span>
 
                                 <a class="doc-download" href="./files/Վանաձոր Նիզամու սեյսմիկ.pdf" download
@@ -521,7 +534,7 @@
             <div class="valuation-content">
                 <div class="price-box">
                     <div class="price-value">
-                        <p>000 000 000</p>
+                        <p>198 800 000</p>
                         <p class="currency">ՀՀ դրամ</p>
                     </div>
                     <div class="doc-row">
@@ -529,7 +542,7 @@
                         <div class="doc-item" data-file="???" data-title="Բիզնես հաշվարկ">
                             <span>Բիզնես հաշվարկ</span>
                             <a class="doc-download" href="./files/investment-calculation.xlsx"
-                                download="Ներդրումային Հաշվարկ.xlsx" aria-label="Ներբեռնել PDF փաստաթուղթ 12">
+                                download="Ներդրումային Հաշվարկ.xlsx" aria-label="Ներբեռնել xlsx փաստաթուղթ 12">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="w-4 h-4">
@@ -543,11 +556,10 @@
                     </div>
 
                     <div class="doc-row">
-
-                        <div class="doc-item" data-files='[  {"file": "./files/???"},  {"file": "./files/???"}  ]'
+                        <div class="doc-item" data-file='./files/Վանաձոր, Նիզամու 53-3.pdf'
                             data-title="Գնահատում">
                             <span>Գնահատում</span>
-                            <a class="doc-download" href="./files/Գնահատում.zip" download
+                            <a class="doc-download" href="./files/Վանաձոր, Նիզամու 53-3.pdf" download
                                 aria-label="Ներբեռնել PDF փաստաթուղթ 13">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"

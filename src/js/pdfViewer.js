@@ -60,6 +60,48 @@ class PDFModal {
     return ["excel", "word", "powerpoint"].includes(t);
   }
 
+  isInvestmentCalculationFile(filePath) {
+    return String(filePath).includes("investment-calculation.xlsx");
+  }
+
+  getInvestmentCalculationDownloadName() {
+    const sourceName = "Ներդրումային Հաշվարկ.xlsx";
+    const i18n = window.prospectI18n;
+    if (!i18n?.t) return sourceName;
+
+    const bySource = i18n.t(sourceName);
+    if (bySource && bySource !== sourceName) return bySource;
+
+    const key = "docs.investmentCalculationFile";
+    const byKey = i18n.t(key);
+    return byKey && byKey !== key ? byKey : sourceName;
+  }
+
+  getDownloadNameForFile(filePath) {
+    return this.isInvestmentCalculationFile(filePath)
+      ? this.getInvestmentCalculationDownloadName()
+      : this.getFilenameFromUrl(filePath);
+  }
+
+  setModalDownload(url, filename = this.getFilenameFromUrl(url)) {
+    if (!this.downloadLink) return;
+
+    this.downloadLink.href = url;
+    if (filename) {
+      this.downloadLink.setAttribute("download", filename);
+    } else {
+      this.downloadLink.removeAttribute("download");
+    }
+    this.downloadLink.style.display = "inline-flex";
+  }
+
+  hideModalDownload() {
+    if (!this.downloadLink) return;
+
+    this.downloadLink.removeAttribute("download");
+    this.downloadLink.style.display = "none";
+  }
+
   isOneDriveUrl(filePath) {
     return (
       filePath.includes("1drv.ms") ||
@@ -212,7 +254,9 @@ class PDFModal {
         if (this.isIOS()) {
           event.preventDefault();
           event.stopPropagation();
-          const filename = this.getFilenameFromUrl(this.downloadLink.href);
+          const filename =
+            this.downloadLink.getAttribute("download") ||
+            this.getFilenameFromUrl(this.downloadLink.href);
           this.downloadFileIOS(this.downloadLink.href, filename);
         }
       });
@@ -244,9 +288,10 @@ class PDFModal {
       });
 
       if (this.isOneDriveUrl(filePath)) {
-        this.downloadLink.href = "./files/investment-calculation.xlsx";
-        this.downloadLink.setAttribute("download", "Ներդրումային Հաշվարկ.xlsx");
-        this.downloadLink.style.display = "inline-flex";
+        this.setModalDownload(
+          "./files/investment-calculation.xlsx",
+          this.getInvestmentCalculationDownloadName(),
+        );
 
         const preloadedIframe = this.modalBody.querySelector(`iframe[data-preload-url="${filePath}"]`);
         if (preloadedIframe) {
@@ -271,8 +316,7 @@ class PDFModal {
 
       if (this.isOfficeFile(filePath)) {
         const targetUrl = this.getOfficeViewerUrl(filePath);
-        this.downloadLink.href = filePath;
-        this.downloadLink.style.display = "inline-flex";
+        this.setModalDownload(filePath, this.getDownloadNameForFile(filePath));
 
         const preloadedIframe = this.modalBody.querySelector(`iframe[data-preload-url="${targetUrl}"]`);
         if (preloadedIframe) {
@@ -318,15 +362,14 @@ class PDFModal {
         if (match) {
           const fileId = match[1];
           const downloadUrl = `https://drive.usercontent.google.com/u/0/uc?id=${fileId}&export=download`;
-          this.downloadLink.href = downloadUrl;
+          this.setModalDownload(downloadUrl, "");
         } else {
           console.log("Не удалось найти ID файла");
           return;
         }
       } else {
-        this.downloadLink.href = filePath;
+        this.setModalDownload(filePath, this.getDownloadNameForFile(filePath));
       }
-      this.downloadLink.style.display = "inline-flex";
 
       this.showModal();
     } catch (error) {
@@ -349,9 +392,10 @@ class PDFModal {
 
     // ─── NEW: OneDrive embed ─────────────────────────────────────────────────
     if (this.isOneDriveUrl(filePath)) {
-      this.downloadLink.href = "./files/investment-calculation.xlsx";
-      this.downloadLink.setAttribute("download", "Ներդրումային Հաշվարկ.xlsx");
-      this.downloadLink.style.display = "inline-flex";
+      this.setModalDownload(
+        "./files/investment-calculation.xlsx",
+        this.getInvestmentCalculationDownloadName(),
+      );
 
       const preloadedIframe = this.modalBody.querySelector(`iframe[data-preload-url="${filePath}"]`);
       if (preloadedIframe) {
@@ -375,8 +419,7 @@ class PDFModal {
     // ─── NEW: Office файл ────────────────────────────────────────────────────
     if (this.isOfficeFile(filePath)) {
       const targetUrl = this.getOfficeViewerUrl(filePath);
-      this.downloadLink.href = filePath;
-      this.downloadLink.style.display = "inline-flex";
+      this.setModalDownload(filePath, this.getDownloadNameForFile(filePath));
 
       const preloadedIframe = this.modalBody.querySelector(`iframe[data-preload-url="${targetUrl}"]`);
       if (preloadedIframe) {
@@ -416,10 +459,9 @@ class PDFModal {
     }
 
     if (isGoogleDrive) {
-      this.downloadLink.style.display = "none";
+      this.hideModalDownload();
     } else {
-      this.downloadLink.href = filePath;
-      this.downloadLink.style.display = "inline-flex";
+      this.setModalDownload(filePath, this.getDownloadNameForFile(filePath));
     }
   }
 

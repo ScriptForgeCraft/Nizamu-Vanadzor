@@ -1,0 +1,92 @@
+.main-header__nav {
+  margin-left: auto;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2rem;
+  margin-right: 0;
+  padding: 3px;
+  border: 1px solid rgba(20, 24, 52, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.language-switcher__btn {
+  min-width: 34px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #141834;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.language-switcher__btn:hover,
+.language-switcher__btn:focus-visible {
+  background: rgba(20, 24, 52, 0.08);
+  outline: none;
+}
+
+.language-switcher__btn.active {
+  background: #141834;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(20, 24, 52, 0.18);
+}
+
+body.dark-mode .language-switcher {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(30, 41, 59, 0.92);
+}
+
+body.dark-mode .language-switcher__btn {
+  color: #f8fafc;
+}
+
+body.dark-mode .language-switcher__btn:hover,
+body.dark-mode .language-switcher__btn:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .language-switcher__btn.active {
+  background: #ffffff;
+  color: #141834;
+}
+
+.doc-item::after {
+  content: var(--i18n-view-label, "👁 Դիտել");
+}
+
+.modal-body.loading::after {
+  content: var(--i18n-loading-label, "Բեռնում...");
+}
+
+@media (max-width: 992px) {
+  .language-switcher {
+    margin-left: auto;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .language-switcher {
+    margin-right: 0.75rem;
+    padding: 2px;
+  }
+
+  .language-switcher__btn {
+    min-width: 30px;
+    height: 26px;
+    font-size: 0.7rem;
+  }
+}
