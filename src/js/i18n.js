@@ -234,18 +234,46 @@ function updateLanguageButtons(lang) {
   });
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function getDownloadProgressLabel(lang) {
+  if (lang === "ru") return "Загрузка...";
+  if (lang === "en") return "Downloading...";
+  return "Ներբեռնում...";
+}
+
+function getDownloadProgressPercent(text) {
+  const cleanText = text.trim();
+
+  for (const lang of SUPPORTED_LANGUAGES) {
+    const label = getDownloadProgressLabel(lang);
+    const match = cleanText.match(new RegExp(`^${escapeRegExp(label)}\\s*(\\d+)%$`));
+    if (match) return match[1];
+  }
+
+  return null;
+}
+
 function translateDynamicText(lang = currentLanguage) {
   document.querySelectorAll(".smart-download").forEach((element) => {
-    const progressMatch = element.textContent.trim().match(/^Ներբեռնում\.\.\.\s*(\d+)%$/);
-    if (progressMatch) {
-      const label = lang === "hy" ? "Ներբեռնում..." : lang === "ru" ? "Загрузка..." : "Downloading...";
-      element.textContent = `${label} ${progressMatch[1]}%`;
+    const progress = getDownloadProgressPercent(element.textContent);
+
+    if (progress !== null) {
+      const nextText = `${getDownloadProgressLabel(lang)} ${progress}%`;
+      if (element.textContent !== nextText) {
+        element.textContent = nextText;
+      }
     }
   });
 
   const toast = document.getElementById("toast");
   if (toast?.textContent.trim() === "✓ Պատճենված") {
-    toast.textContent = `✓ ${lang === "hy" ? "Պատճենված" : lang === "ru" ? "Скопировано" : "Copied"}`;
+    const nextText = `✓ ${lang === "hy" ? "Պատճենված" : lang === "ru" ? "Скопировано" : "Copied"}`;
+    if (toast.textContent !== nextText) {
+      toast.textContent = nextText;
+    }
   }
 }
 
