@@ -62,6 +62,7 @@ const commonTranslations = {
   "Վկայական": entry("Свидетельство", "Certificate"),
   "Սխեմա": entry("Схема", "Scheme"),
   "Սեյսմիկ": entry("Сейсмика", "Seismic"),
+  "կառավարության որոշում": entry("Решение правительства", "Government decision"),
   "Վեոլիա ջուր": entry("Веолия вода", "Veolia Water"),
   "Գազպրոմ": entry("Газпром", "Gazprom"),
   "ՃՀԱ հայտ": entry("Заявка на АПЗ", "Architectural planning assignment application"),
